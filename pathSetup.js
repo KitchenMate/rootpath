@@ -21,8 +21,10 @@ module.exports = function(filePath, dontIncludePWD) {
 
   // Include yarn package path for monorepos
   // TODO: generalize support
-  var packagePath = new Error().stack.split('\n')[2].match('/.*kitchenmate/(services|packages)/[^/]*')[0]
-  process.env.NODE_PATH = packagePath + ":" + process.env.NODE_PATH
+  if (process.env.ROOTPATH_MONOREPO_SUPPORT) {
+    var packagePath = new Error().stack.split('\n')[2].match('/.*kitchenmate/(services|packages)/[^/]*')[0]
+    process.env.NODE_PATH = packagePath + ":" + process.env.NODE_PATH
+  }
 
   return require('module')._initPaths();
 };
